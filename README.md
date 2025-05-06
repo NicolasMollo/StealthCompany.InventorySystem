@@ -1,0 +1,1 @@
+"# StealthCompany.InventorySystem" 

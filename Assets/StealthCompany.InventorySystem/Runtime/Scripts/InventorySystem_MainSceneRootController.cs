@@ -1,3 +1,4 @@
+using Codice.Utils;
 using NewLab.Unity.SDK.Core.Systems.Controllers;
 
 
@@ -13,6 +14,10 @@ namespace InventorySystem.Systems.Controllers
            - Event Dispatcher
         */
 
+        private InventorySystem_CameraController cameraController = null;
+        private InventorySystem_PlayerController playerController = null;
+
+
         protected override void InternalSetUp()
         {
 
@@ -20,8 +25,26 @@ namespace InventorySystem.Systems.Controllers
 
             foreach (BaseSceneController controller in Controllers)
             {
-                controller.SetUp();
+                controller.SetUp(this);
             }
+
+            // Get controllers references
+            cameraController = GetController<InventorySystem_CameraController>();
+            playerController = GetController<InventorySystem_PlayerController>();
+
+        }
+
+        public void Update()
+        {
+
+            playerController.UpdateController();
+
+        }
+
+        public void LateUpdate()
+        {
+
+            cameraController.UpdateController();
 
         }
 
@@ -30,7 +53,7 @@ namespace InventorySystem.Systems.Controllers
 
             foreach (BaseSceneController controller in Controllers)
             {
-                controller.CleanUp();
+                controller.CleanUp(this);
             }
 
         }

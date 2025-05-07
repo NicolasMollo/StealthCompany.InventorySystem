@@ -11,7 +11,7 @@ namespace NewLab.Unity.SDK.Core.Modules
         /// <summary>
         /// Method that deals with the movement of a target.
         /// </summary>
-        public abstract void Movement(Vector3 direction = default);
+        public virtual void Movement(Vector3 direction = default) { }
 
         #endregion
 

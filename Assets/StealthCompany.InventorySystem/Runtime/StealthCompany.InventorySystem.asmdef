@@ -1,3 +1,16 @@
 {
-	"name": "StealthCompany.InventorySystem"
+    "name": "StealthCompany.InventorySystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:721749bda02d19c41a785ca17171b392"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

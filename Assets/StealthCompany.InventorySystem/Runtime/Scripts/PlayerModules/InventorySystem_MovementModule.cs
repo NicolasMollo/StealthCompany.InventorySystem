@@ -13,10 +13,10 @@ namespace InventorySystem.Systems.Controllers.PlayerModules
 
         [SerializeField]
         [Tooltip("Transform target to move")]
-        private Transform _targetTransform = null;
-        public Transform TargetTransform
+        private CharacterController _targetCharacterController = null;
+        public CharacterController TargetCharacterController
         {
-            get => _targetTransform;
+            get => _targetCharacterController;
         }
 
         [SerializeField]
@@ -24,17 +24,33 @@ namespace InventorySystem.Systems.Controllers.PlayerModules
         [Tooltip("Scalar that will be multiplied by the vector relating to the direction of movement")]
         private float movementSpeed = 1.0f;
 
+        [SerializeField]
+        [Tooltip("Rotation speed multiplier")]
+        [Range(1.0f, 25.0f)]
+        private float rotationSpeedMultiplier = 10.0f;
+
 
         public void Movement(Transform targetCamera)
         {
 
-            Vector3 direction = targetCamera.forward * GetAxes().z + targetCamera.right * GetAxes().x;
-            Vector3 directionNormalized = direction.normalized;
+            Vector3 input = GetAxes();
+            Vector3 cameraForward = Vector3.ProjectOnPlane(targetCamera.forward, Vector3.up).normalized;
+            Vector3 cameraRight = Vector3.ProjectOnPlane(targetCamera.right, Vector3.up).normalized;
+            Vector3 directionNormalized = (cameraForward * input.z + cameraRight * input.x).normalized;
             float calculatedMovementSpeed = movementSpeed * Time.deltaTime;
-            Vector3 velocity = directionNormalized * calculatedMovementSpeed;
+            float calculatedRotationSpeed = rotationSpeedMultiplier * Time.deltaTime;
 
-            _targetTransform.Translate(velocity, Space.World);
-            _targetTransform.rotation = targetCamera.rotation;
+            if (directionNormalized.magnitude > 0.1f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(directionNormalized);
+                _targetCharacterController.transform.rotation = Quaternion.Slerp(
+                    _targetCharacterController.transform.rotation,
+                    targetRot,
+                    calculatedRotationSpeed
+                    );
+            }
+
+            _targetCharacterController.Move(directionNormalized * calculatedMovementSpeed);
 
         }
 
@@ -45,6 +61,7 @@ namespace InventorySystem.Systems.Controllers.PlayerModules
             return inputAxes;
 
         }
+
 
     }
 

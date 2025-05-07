@@ -9,57 +9,43 @@ namespace InventorySystem.Systems.Controllers
     {
 
         [SerializeField]
-        [Tooltip("Camera target")]
-        private Camera _targetCamera = null;
-        public Camera TargetCamera
+        [Tooltip("Camera")]
+        private Camera _camera;
+        public Camera Camera
         {
-            get => _targetCamera;
+            get => _camera;
         }
 
-        private Transform rotationTarget = null;
+        [SerializeField]
+        [Tooltip("Camera target")]
+        private Transform cameraTarget;
 
         [SerializeField]
-        [Range(1.0f, 1000.0f)]
-        [Tooltip("Mouse sensitivity")]
-        private float sensitivity = 1.0f;
-
-        private float xRotation = 0.0f;
+        [Tooltip("Camera position offset")]
+        private Vector3 positionOffset = new Vector3(0, 2, -5);
 
         [SerializeField]
-        [Range(0.0f, 360.0f)]
-        private float minRotationX = 0.0f;
-        [SerializeField]
-        [Range(0.0f, 360.0f)]
-        private float maxRotationX = 0.0f;
+        [Tooltip("Camera sensitivity")]
+        private float sensitivity = 100.0f;
 
         [SerializeField]
-        [Range(1.0f, 10.0f)]
-        private float zPositionOffset = 5.0f;
-
-        private float yRotation = 0.0f;
-
+        [Tooltip("Minimum pitch")]
+        private float minPitch = -40f;
 
         [SerializeField]
-        [Range(1.0f, 10.0f)]
-        private float yPositionOffset = 1.0f;
+        [Tooltip("Maximum pitch")]
+        private float maxPitch = 70f;
+
+        private float yaw = 0f;
+        private float pitch = 0f;
 
 
         #region API
 
-        public override void SetUp(BaseSceneRootController sceneRootController)
-        {
-
-            InventorySystem_PlayerController playerController = 
-                sceneRootController.GetController<InventorySystem_PlayerController>();
-            rotationTarget = playerController.MovementModule.TargetTransform;
-
-        }
-
         public override void UpdateController()
         {
 
-            SetPosition();
-            SetRotation();
+            CameraMovement();
 
         }
 
@@ -74,28 +60,18 @@ namespace InventorySystem.Systems.Controllers
 
         #region Private methods
 
-        private void SetPosition()
+        private void CameraMovement()
         {
 
-            Vector3 distanceOffset = Vector3.back * zPositionOffset + Vector3.up * yPositionOffset;
-            Vector3 distanceToTarget = _targetCamera.transform.localRotation * distanceOffset;
+            Vector2 calculatedInput = GetAxes() * sensitivity * Time.deltaTime;
+            yaw += calculatedInput.x;
+            pitch -= calculatedInput.y;
+            pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+            Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
+            Vector3 desiredPosition = cameraTarget.position + rotation * positionOffset;
 
-            _targetCamera.transform.position = rotationTarget.position + distanceToTarget;
-            // _targetCamera.transform.position = Vector3.Lerp(_targetCamera.transform.position, rotationTarget.position + distanceToTarget, 2f);
-        }
-
-        private void SetRotation()
-        {
-
-            Vector2 mouseInput = GetAxes();
-            float calculatedSensitivity = sensitivity * Time.deltaTime;
-            mouseInput *= calculatedSensitivity;
-            xRotation -= mouseInput.y;
-            xRotation = Mathf.Clamp(xRotation, minRotationX, maxRotationX);
-            yRotation -= mouseInput.x;
-            Quaternion rotation = Quaternion.Euler(xRotation, yRotation, 0f);
-
-            _targetCamera.transform.localRotation = rotation;
+            _camera.transform.position = desiredPosition;
+            _camera.transform.LookAt(cameraTarget);
 
         }
 

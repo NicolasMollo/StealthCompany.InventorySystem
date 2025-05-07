@@ -49,7 +49,7 @@ namespace InventorySystem.Systems.Controllers
             // Get camera transform
             InventorySystem_CameraController cameraController = 
                 sceneRootController.GetController<InventorySystem_CameraController>();
-            cameraTransform = cameraController.TargetCamera.transform;
+            cameraTransform = cameraController.Camera.transform;
 
         }
 

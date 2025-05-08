@@ -1,11 +1,11 @@
+using UnityEngine;
 using NewLab.Unity.SDK.Core.Systems.Controllers.Player;
 using NewLab.Unity.SDK.Core.Systems.Controllers;
 using NewLab.Unity.SDK.Core.Modules;
-using InventorySystem.Systems.Controllers.PlayerModules;
-using UnityEngine;
+using InventorySystem.Systems.Controllers.CameraManagement;
 
 
-namespace InventorySystem.Systems.Controllers
+namespace InventorySystem.Systems.Controllers.Player
 {
 
     public class InventorySystem_PlayerController : BasePlayerController

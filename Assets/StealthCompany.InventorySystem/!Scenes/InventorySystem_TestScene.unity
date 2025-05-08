@@ -227,6 +227,89 @@ Transform:
   - {fileID: 8606245701233198538}
   m_Father: {fileID: 3187989285985536542}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1688544717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688544718}
+  - component: {fileID: 1688544719}
+  m_Layer: 0
+  m_Name: CollectibleItemsController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1688544718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688544717}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1815458624}
+  m_Father: {fileID: 3698609394846074834}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1688544719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688544717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c070961d22db337419309016f4fd89d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfCollectibleItemsToSpawn: 10
+  collectibleItemsParent: {fileID: 1815458624}
+  collectiblesPrefabs:
+  - {fileID: 6202087639023851415, guid: c5d1e5bc709e0b14fafb0222a2d1bf2d, type: 3}
+  - {fileID: 7517174306614836592, guid: 066deee1840a83a49975cceb15f0f066, type: 3}
+  - {fileID: 8693232710371800933, guid: a9c32379abf84434d9a0498f61ea67b2, type: 3}
+  reactivationDelay: 3
+--- !u!1 &1815458623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1815458624}
+  m_Layer: 0
+  m_Name: === CollectibleItems ===
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1815458624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815458623}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1688544718}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &205041545321661806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +536,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3698609394846074834}
+  - component: {fileID: 3698609394846074835}
   m_Layer: 0
   m_Name: EnvironmentRootController
   m_TagString: Untagged
@@ -787,8 +871,23 @@ Transform:
   m_Children:
   - {fileID: 5406098541768900589}
   - {fileID: 7432116559401369224}
+  - {fileID: 1688544718}
   m_Father: {fileID: 3187989285985536542}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3698609394846074835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265866796273484943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6045b330218ee684b9bb07158d4e01c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _floor: {fileID: 3596445701419879043}
+  _floorCollider: {fileID: 1276312937781992445}
 --- !u!81 &3870380033351307889
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1052,6 +1151,8 @@ MonoBehaviour:
   _controllers:
   - {fileID: 6054008132674233044}
   - {fileID: 1505977499}
+  - {fileID: 1688544719}
+  - {fileID: 3698609394846074835}
   _eventDispatcher: {fileID: 1761352480040760985}
 --- !u!114 &5737711028250249128
 MonoBehaviour:

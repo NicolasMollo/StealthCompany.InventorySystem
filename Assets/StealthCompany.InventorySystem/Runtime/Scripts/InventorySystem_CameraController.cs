@@ -2,7 +2,7 @@ using UnityEngine;
 using NewLab.Unity.SDK.Core.Systems.Controllers;
 
 
-namespace InventorySystem.Systems.Controllers
+namespace InventorySystem.Systems.Controllers.CameraManagement
 {
 
     public class InventorySystem_CameraController : BaseSceneController

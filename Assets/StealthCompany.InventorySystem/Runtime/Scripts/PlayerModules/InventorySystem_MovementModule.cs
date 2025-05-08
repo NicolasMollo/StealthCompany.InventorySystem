@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using NewLab.Unity.SDK.Core.Modules;
 
 
-namespace InventorySystem.Systems.Controllers.PlayerModules
+namespace InventorySystem.Systems.Controllers.Player
 {
 
     public class InventorySystem_MovementModule : BaseMovementModule
@@ -12,7 +12,7 @@ namespace InventorySystem.Systems.Controllers.PlayerModules
         [TitleGroup("INVENTORYSYSTEM_MOVEMENTMODULE", null, TitleAlignments.Centered)]
 
         [SerializeField]
-        [Tooltip("Transform target to move")]
+        [Tooltip("CharacterController target")]
         private CharacterController _targetCharacterController = null;
         public CharacterController TargetCharacterController
         {

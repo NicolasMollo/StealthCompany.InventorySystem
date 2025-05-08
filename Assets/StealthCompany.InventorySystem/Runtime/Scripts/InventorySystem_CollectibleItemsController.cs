@@ -27,7 +27,13 @@ namespace InventorySystem.Systems.Controllers
         [Tooltip("Reactivate objects delay")]
         private float reactivationDelay = 1.0f;
 
-        private List<CollectibleItem> collectibleItems = null;
+        private List<CollectibleItem> _collectibleItems = null;
+        public List<CollectibleItem> CollectibleItems
+        {
+            get => _collectibleItems;
+        }
+
+        public Vector3 mapPosition = Vector3.zero;
         private Vector3 halfMapSize = Vector3.zero;
         private Vector3 lastItemPosition = Vector3.zero;
         private int deactivatedCollectibleItems = 0;
@@ -40,14 +46,15 @@ namespace InventorySystem.Systems.Controllers
 
             InventorySystem_EnvironmentRootController environmentRootController = 
                 sceneRootController.GetController<InventorySystem_EnvironmentRootController>();
+            mapPosition = environmentRootController.MapPosition;
             halfMapSize = environmentRootController.HalfMapSize;
 
-            collectibleItems = new List<CollectibleItem>();
+            _collectibleItems = new List<CollectibleItem>();
             for (int i = 0; i < numberOfCollectibleItemsToSpawn; i++)
             {
                 CollectibleItem collectibleItem = CreateRandomCollectibleItem();
                 collectibleItem.OnCollideWithPlayer += OnPlayerCollisionWithCollectibleItem;
-                collectibleItems.Add(collectibleItem);
+                _collectibleItems.Add(collectibleItem);
             }
 
         }
@@ -55,7 +62,7 @@ namespace InventorySystem.Systems.Controllers
         public override void CleanUp()
         {
 
-            foreach (CollectibleItem collectibleItem in collectibleItems)
+            foreach (CollectibleItem collectibleItem in _collectibleItems)
             {
                 collectibleItem.OnCollideWithPlayer -= OnPlayerCollisionWithCollectibleItem;
             }
@@ -88,17 +95,17 @@ namespace InventorySystem.Systems.Controllers
 
             float positionY = 1;
             Vector3 randomPosition = new Vector3(
-                Random.Range(-halfMapSize.x, halfMapSize.x),
+                Random.Range(mapPosition.x - halfMapSize.x, mapPosition.x + halfMapSize.x),
                 positionY,
-                Random.Range(-halfMapSize.z, halfMapSize.z)
+                Random.Range(mapPosition.z - halfMapSize.z, mapPosition.z + halfMapSize.z)
                 );
 
             while (randomPosition == lastItemPosition)
             {
                 randomPosition = new Vector3(
-                Random.Range(-halfMapSize.x, halfMapSize.x),
+                Random.Range(mapPosition.x - halfMapSize.x, mapPosition.x + halfMapSize.x),
                 positionY,
-                Random.Range(-halfMapSize.z, halfMapSize.z)
+                Random.Range(mapPosition.z - halfMapSize.z, mapPosition.z + halfMapSize.z)
                 );
             }
 
@@ -110,7 +117,7 @@ namespace InventorySystem.Systems.Controllers
         {
 
             deactivatedCollectibleItems++;
-            if (deactivatedCollectibleItems == collectibleItems.Count)
+            if (deactivatedCollectibleItems == _collectibleItems.Count)
             {
                 StartCoroutine(ReactivatesCollectibleItems(reactivationDelay));
                 deactivatedCollectibleItems = 0;
@@ -124,7 +131,7 @@ namespace InventorySystem.Systems.Controllers
             yield return new WaitForSeconds(delay);
 
             bool gameobjectActiveness = true;
-            foreach (CollectibleItem item in collectibleItems)
+            foreach (CollectibleItem item in _collectibleItems)
             {
                 item.gameObject.SetActive(gameobjectActiveness);
             }

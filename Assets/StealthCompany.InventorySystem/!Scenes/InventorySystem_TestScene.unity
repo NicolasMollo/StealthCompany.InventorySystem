@@ -279,6 +279,7 @@ MonoBehaviour:
   - {fileID: 7517174306614836592, guid: 066deee1840a83a49975cceb15f0f066, type: 3}
   - {fileID: 8693232710371800933, guid: a9c32379abf84434d9a0498f61ea67b2, type: 3}
   reactivationDelay: 3
+  mapPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1815458623
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,8 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6045b330218ee684b9bb07158d4e01c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _floor: {fileID: 3596445701419879043}
-  _floorCollider: {fileID: 1276312937781992445}
+  floorCollider: {fileID: 1276312937781992445}
 --- !u!81 &3870380033351307889
 AudioListener:
   m_ObjectHideFlags: 0

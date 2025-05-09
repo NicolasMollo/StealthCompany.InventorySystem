@@ -15,3 +15,5 @@ MonoBehaviour:
   _collectibleType: 2
   _collectibleItemName: Invincibility
   _collectibleItemID: 2
+  _itemUIImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  _itemUIImageMaterial: {fileID: 2100000, guid: d4c11cad13cdba74da9e713df61fb503, type: 2}

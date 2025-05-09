@@ -15,3 +15,5 @@ MonoBehaviour:
   _collectibleType: 1
   _collectibleItemName: Potion
   _collectibleItemID: 1
+  _itemUIImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  _itemUIImageMaterial: {fileID: 2100000, guid: 1d7a8e6d21357f54a9a938e63d99163a, type: 2}

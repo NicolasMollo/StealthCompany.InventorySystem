@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace InventorySystem.Systems.Controllers.Items.Collectibles
@@ -39,6 +40,20 @@ namespace InventorySystem.Systems.Controllers.Items.Collectibles
         public int CollectibleItemID
         {
             get => _collectibleItemID;
+        }
+
+        [SerializeField]
+        private Sprite _itemUIImage = null;
+        public Sprite ItemUIImage
+        {
+            get => _itemUIImage;
+        }
+
+        [SerializeField]
+        private Material _itemUIImageMaterial = null;
+        public Material ItemUIImageMaterial
+        {
+            get => _itemUIImageMaterial;
         }
 
     }

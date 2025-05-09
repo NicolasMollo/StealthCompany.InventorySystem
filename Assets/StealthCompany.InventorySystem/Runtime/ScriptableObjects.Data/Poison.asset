@@ -15,3 +15,5 @@ MonoBehaviour:
   _collectibleType: 0
   _collectibleItemName: Poison
   _collectibleItemID: 0
+  _itemUIImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  _itemUIImageMaterial: {fileID: 2100000, guid: 6577ee7cf37d0cb4b89cb92351d2a6e9, type: 2}

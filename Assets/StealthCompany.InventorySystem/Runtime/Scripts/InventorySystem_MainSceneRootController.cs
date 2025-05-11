@@ -1,6 +1,8 @@
 using NewLab.Unity.SDK.Core.Systems.Controllers;
 using InventorySystem.Systems.Controllers.Player;
 using InventorySystem.Systems.Controllers.CameraManagement;
+using InventorySystem.Systems.UI;
+using UnityEngine.Rendering.VirtualTexturing;
 
 
 namespace InventorySystem.Systems.Controllers
@@ -15,8 +17,11 @@ namespace InventorySystem.Systems.Controllers
            - Event Dispatcher
         */
 
+        // Scene controllers
         private InventorySystem_CameraController cameraController = null;
         private InventorySystem_PlayerController playerController = null;
+        // Systems
+        private InventorySystem_SystemUI systemUI = null;
 
 
         protected override void InternalSetUp()
@@ -32,6 +37,9 @@ namespace InventorySystem.Systems.Controllers
             // Get controllers references
             cameraController = GetController<InventorySystem_CameraController>();
             playerController = GetController<InventorySystem_PlayerController>();
+            // Get systems reference
+            systemUI = SystemsManager.GetSystem<InventorySystem_SystemUI>();
+            systemUI.RegisteringEventOnMainSceneRootController(this);
 
         }
 
@@ -56,6 +64,8 @@ namespace InventorySystem.Systems.Controllers
             {
                 controller.CleanUp(this);
             }
+
+            systemUI.UnregisteringEventOnMainSceneRootController(this);
 
         }
 

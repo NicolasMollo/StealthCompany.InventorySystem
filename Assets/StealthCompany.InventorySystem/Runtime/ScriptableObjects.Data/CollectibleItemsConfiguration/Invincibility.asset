@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513610c3b3fdced44947584198ca99b3, type: 3}
   m_Name: Invincibility
   m_EditorClassIdentifier: 
-  _collectibleType: 2
   _collectibleItemName: Invincibility
   _collectibleItemID: 2
   _itemUIImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  _itemUIImageMaterial: {fileID: 2100000, guid: d4c11cad13cdba74da9e713df61fb503, type: 2}
+  _itemUIImageMaterial: {fileID: 2100000, guid: 8421c1b0667b41d42bf5d7a60de0ae8f, type: 2}
   _collectibleItemBehaviour: {fileID: 11400000, guid: 0b5a4090952e824408ad3e4b5003a39c, type: 2}

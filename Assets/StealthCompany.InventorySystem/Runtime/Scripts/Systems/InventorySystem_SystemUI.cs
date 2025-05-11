@@ -1,7 +1,10 @@
 using InventorySystem.Systems.Controllers;
 using InventorySystem.Systems.Controllers.Items.Collectibles;
+using InventorySystem.Systems.Controllers.Player;
 using InventorySystem.Systems.UI.Inventory;
+using InventorySystem.Systems.UI.LifeBar;
 using InventorySystem.Systems.UI.Settings;
+using NewLab.Unity.SDK.Core.Modules;
 using NewLab.Unity.SDK.Core.Systems;
 using NewLab.Unity.SDK.Core.Systems.Controllers;
 using UnityEngine;
@@ -32,6 +35,13 @@ namespace InventorySystem.Systems.UI
             get => _settingsController;
         }
 
+        [SerializeField]
+        private UI_LifeBarController _lifeBarController = null;
+        public UI_LifeBarController LifeBarController
+        {
+            get => _lifeBarController;
+        }
+
         #endregion
 
 
@@ -40,6 +50,7 @@ namespace InventorySystem.Systems.UI
         public void RegisteringEventOnMainSceneRootController(BaseSceneRootController sceneRootController)
         {
 
+            // Inventory management
             InventorySystem_CollectibleItemsController collectibleItemsController =
                 sceneRootController.GetController<InventorySystem_CollectibleItemsController>();
 
@@ -48,12 +59,20 @@ namespace InventorySystem.Systems.UI
                 item.OnCollideWithPlayer += OnPlayerCollisionWithCollectibleItem;
             }
 
+            // Life bar management
+            InventorySystem_PlayerController playerController =
+                sceneRootController.GetController<InventorySystem_PlayerController>();
+            _lifeBarController.SetUp(playerController.HealthModule);
+            playerController.HealthModule.OnTakeHealth += OnPlayerTakeHealth;
+            playerController.HealthModule.OnTakeDamage += OnPlayerTakeDamage;
+
 
         }
 
         public void UnregisteringEventOnMainSceneRootController(BaseSceneRootController sceneRootController)
         {
 
+            // Inventory management
             InventorySystem_CollectibleItemsController collectibleItemsController =
                 sceneRootController.GetController<InventorySystem_CollectibleItemsController>();
 
@@ -62,14 +81,33 @@ namespace InventorySystem.Systems.UI
                 item.OnCollideWithPlayer -= OnPlayerCollisionWithCollectibleItem;
             }
 
+            // Life bar management
+            InventorySystem_PlayerController playerController =
+               sceneRootController.GetController<InventorySystem_PlayerController>();
+            playerController.HealthModule.OnTakeHealth -= OnPlayerTakeHealth;
+            playerController.HealthModule.OnTakeDamage -= OnPlayerTakeDamage;
+
         }
 
         #endregion
 
+        private void OnPlayerTakeHealth(Std_HealthModule healthModule)
+        {
+
+            _lifeBarController.SetLifeBar(healthModule);
+
+        }
+
+        private void OnPlayerTakeDamage(Std_HealthModule healthModule)
+        {
+
+            _lifeBarController.SetLifeBar(healthModule);
+
+        }
+
         private void OnPlayerCollisionWithCollectibleItem(CollectibleItemConfiguration configuration)
         {
 
-            // Debug.Log($"== {this.name} == {configuration.CollectibleType.ToString()}");
             _inventoryController.SetUpInventoryItem(configuration);
 
         }

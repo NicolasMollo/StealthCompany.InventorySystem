@@ -14,17 +14,21 @@ namespace NewLab.Unity.SDK.Core.Modules
         [SerializeField]
         [Tooltip("Maximum health")]
         [Range(1.0f, 1000.0f)]
-        protected float maxHealth = 1.0f;
+        protected float _maxHealth = 1.0f;
+        public float MaxHealth
+        {
+            get => _maxHealth;
+        }
 
         private float _currentHealth = 0.0f;
-        protected float CurrentHealth
+        public float CurrentHealth
         {
             get
             {
-                _currentHealth = _currentHealth < 0.0f ? 0.0f : _currentHealth > maxHealth ? maxHealth : _currentHealth;
+                _currentHealth = _currentHealth < 0.0f ? 0.0f : _currentHealth > _maxHealth ? _maxHealth : _currentHealth;
                 return _currentHealth;
             }
-            set => _currentHealth = value;
+            protected set => _currentHealth = value;
         }
 
         public bool IsDead
@@ -42,7 +46,7 @@ namespace NewLab.Unity.SDK.Core.Modules
         public override void SetUp()
         {
 
-            CurrentHealth = maxHealth;
+            CurrentHealth = _maxHealth;
 
         }
 

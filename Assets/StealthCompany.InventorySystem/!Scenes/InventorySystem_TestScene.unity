@@ -272,12 +272,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c070961d22db337419309016f4fd89d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfCollectibleItemsToSpawn: 10
+  numberOfCollectibleItemsToSpawn: 15
   collectibleItemsParent: {fileID: 1815458624}
   collectiblesPrefabs:
   - {fileID: 6202087639023851415, guid: c5d1e5bc709e0b14fafb0222a2d1bf2d, type: 3}
   - {fileID: 7517174306614836592, guid: 066deee1840a83a49975cceb15f0f066, type: 3}
   - {fileID: 8693232710371800933, guid: a9c32379abf84434d9a0498f61ea67b2, type: 3}
+  - {fileID: 2185868054084000207, guid: ae130e8d83347d34c823bd2914ae0c1d, type: 3}
+  - {fileID: 7539763254738029969, guid: 1efe388edfe3017479e8b8931e702c42, type: 3}
   reactivationDelay: 3
   mapPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1815458623
@@ -413,7 +415,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 6d7ad8be4d002224dbdda1f1985d7fb6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -627,7 +629,7 @@ MonoBehaviour:
   _moduleName: MovementModule
   _moduleID: 0
   _targetCharacterController: {fileID: 8111988980585723893}
-  movementSpeed: 10
+  _movementSpeed: 10
   rotationSpeedMultiplier: 5
 --- !u!33 &2520541762255152837
 MeshFilter:
@@ -1264,7 +1266,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 6d7ad8be4d002224dbdda1f1985d7fb6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

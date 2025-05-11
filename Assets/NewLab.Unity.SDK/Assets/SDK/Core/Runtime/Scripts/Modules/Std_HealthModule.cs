@@ -51,6 +51,7 @@ namespace NewLab.Unity.SDK.Core.Modules
 
             CurrentHealth += health;
             OnTakeHealth?.Invoke(this);
+            Debug.Log($"Current health value is: {CurrentHealth}");
 
         }
 
@@ -63,6 +64,8 @@ namespace NewLab.Unity.SDK.Core.Modules
             {
                 OnDeath?.Invoke(this);
             }
+
+            Debug.Log($"Current health value is: {CurrentHealth}");
 
         }
 

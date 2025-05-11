@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 513610c3b3fdced44947584198ca99b3, type: 3}
-  m_Name: Potion
+  m_Script: {fileID: 11500000, guid: fdccc7c5cbf0ae549a57f636c0feda63, type: 3}
+  m_Name: CB_TakeLightDamage
   m_EditorClassIdentifier: 
-  _collectibleType: 1
-  _collectibleItemName: Potion
-  _collectibleItemID: 1
+  damage: 2

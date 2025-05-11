@@ -22,7 +22,12 @@ namespace InventorySystem.Systems.Controllers.Player
         [SerializeField]
         [Range(1.0f, 1000.0f)]
         [Tooltip("Scalar that will be multiplied by the vector relating to the direction of movement")]
-        private float movementSpeed = 1.0f;
+        private float _movementSpeed = 1.0f;
+        public float MovementSpeed
+        {
+            get => _movementSpeed;
+            set => _movementSpeed = value > 1000.0f ? 1000.0f : value < 1.0f ? 1.0f : value;
+        }
 
         [SerializeField]
         [Tooltip("Rotation speed multiplier")]
@@ -37,7 +42,7 @@ namespace InventorySystem.Systems.Controllers.Player
             Vector3 cameraForward = Vector3.ProjectOnPlane(targetCamera.forward, Vector3.up).normalized;
             Vector3 cameraRight = Vector3.ProjectOnPlane(targetCamera.right, Vector3.up).normalized;
             Vector3 directionNormalized = (cameraForward * input.z + cameraRight * input.x).normalized;
-            float calculatedMovementSpeed = movementSpeed * Time.deltaTime;
+            float calculatedMovementSpeed = _movementSpeed * Time.deltaTime;
             float calculatedRotationSpeed = rotationSpeedMultiplier * Time.deltaTime;
 
             if (directionNormalized.magnitude > 0.1f)

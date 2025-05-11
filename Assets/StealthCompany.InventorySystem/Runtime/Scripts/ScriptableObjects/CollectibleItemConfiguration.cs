@@ -1,4 +1,8 @@
+using InventorySystem.ScriptableObjects.Commands;
+using Sirenix.OdinInspector.Editor.Validation;
+using System.Data;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace InventorySystem.Systems.Controllers.Items.Collectibles
@@ -7,25 +11,6 @@ namespace InventorySystem.Systems.Controllers.Items.Collectibles
     [CreateAssetMenu(fileName = "CollectibleItemConfiguration", menuName = "ScriptableObjects/CollectibleItemConfiguration")]
     public class CollectibleItemConfiguration : ScriptableObject
     {
-
-        #region CollectibleItemType public enum
-
-        public enum CollectibleItemType : byte
-        {
-            Poison,
-            Potion,
-            Invincibility,
-            Last
-        }
-
-        #endregion
-
-        [SerializeField]
-        private CollectibleItemType _collectibleType = CollectibleItemType.Poison;
-        public CollectibleItemType CollectibleType
-        {
-            get => _collectibleType;
-        }
 
         [SerializeField]
         private string _collectibleItemName = string.Empty;
@@ -39,6 +24,27 @@ namespace InventorySystem.Systems.Controllers.Items.Collectibles
         public int CollectibleItemID
         {
             get => _collectibleItemID;
+        }
+
+        [SerializeField]
+        private Sprite _itemUIImage = null;
+        public Sprite ItemUIImage
+        {
+            get => _itemUIImage;
+        }
+
+        [SerializeField]
+        private Material _itemUIImageMaterial = null;
+        public Material ItemUIImageMaterial
+        {
+            get => _itemUIImageMaterial;
+        }
+
+        [SerializeField]
+        private CommandBehaviour _collectibleItemBehaviour = null;
+        public CommandBehaviour CollectibleItemBehaviour
+        {
+            get => _collectibleItemBehaviour;
         }
 
     }

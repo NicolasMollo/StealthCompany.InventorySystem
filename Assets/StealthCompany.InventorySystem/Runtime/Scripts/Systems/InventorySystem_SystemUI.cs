@@ -2,7 +2,7 @@ using InventorySystem.Systems.Controllers;
 using InventorySystem.Systems.Controllers.Items.Collectibles;
 using InventorySystem.Systems.Controllers.Player;
 using InventorySystem.Systems.UI.Inventory;
-using InventorySystem.Systems.UI.LifeBar;
+using InventorySystem.Systems.UI.HealthBar;
 using InventorySystem.Systems.UI.Settings;
 using NewLab.Unity.SDK.Core.Modules;
 using NewLab.Unity.SDK.Core.Systems;
@@ -36,10 +36,10 @@ namespace InventorySystem.Systems.UI
         }
 
         [SerializeField]
-        private UI_LifeBarController _lifeBarController = null;
-        public UI_LifeBarController LifeBarController
+        private UI_HealthBarController _healthBarController = null;
+        public UI_HealthBarController HealthBarController
         {
-            get => _lifeBarController;
+            get => _healthBarController;
         }
 
         #endregion
@@ -62,10 +62,10 @@ namespace InventorySystem.Systems.UI
             // Life bar management
             InventorySystem_PlayerController playerController =
                 sceneRootController.GetController<InventorySystem_PlayerController>();
-            _lifeBarController.SetUp(playerController.HealthModule);
+            _healthBarController.SetUp();
+            _healthBarController.UpdateHealthBar(playerController.HealthModule);
             playerController.HealthModule.OnTakeHealth += OnPlayerTakeHealth;
             playerController.HealthModule.OnTakeDamage += OnPlayerTakeDamage;
-
 
         }
 
@@ -94,14 +94,14 @@ namespace InventorySystem.Systems.UI
         private void OnPlayerTakeHealth(Std_HealthModule healthModule)
         {
 
-            _lifeBarController.SetLifeBar(healthModule);
+            _healthBarController.UpdateHealthBar(healthModule);
 
         }
 
         private void OnPlayerTakeDamage(Std_HealthModule healthModule)
         {
 
-            _lifeBarController.SetLifeBar(healthModule);
+            _healthBarController.UpdateHealthBar(healthModule);
 
         }
 

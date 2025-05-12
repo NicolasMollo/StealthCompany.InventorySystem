@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 597448052}
   - component: {fileID: 597448053}
   m_Layer: 0
-  m_Name: UI_LifeBarController
+  m_Name: UI_HealthBarController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,7 +169,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d604dd341462384a8eb881f34913b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bar: {fileID: 1860931686}
+  healthBarTransform: {fileID: 1860931685}
+  smoothTime: 0.5
+  image: {fileID: 1860931686}
+  healthBarColors:
+    _fullHpColor: {r: 0.26850104, g: 1, b: 0, a: 1}
+    _averageHpColor: {r: 1, g: 0.9512944, b: 0, a: 1}
+    _quarterHpColor: {r: 0.8415094, g: 0.15718754, b: 0.15718754, a: 1}
 --- !u!1 &1046808520
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +537,7 @@ GameObject:
   - component: {fileID: 1860931687}
   - component: {fileID: 1860931686}
   m_Layer: 0
-  m_Name: Bar
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -551,10 +557,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1814669298}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 108.04633, y: -0.12504578}
-  m_SizeDelta: {x: 50.9364, y: 45.2508}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -2.953598, y: -0.12504578}
+  m_SizeDelta: {x: 216.27551, y: 45.2508}
   m_Pivot: {x: 0.9999994, y: 0.5}
 --- !u!114 &1860931686
 MonoBehaviour:
@@ -576,14 +582,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1860931687
@@ -1360,7 +1366,7 @@ MonoBehaviour:
   UIObject: {fileID: 27867428764245980}
   _inventoryController: {fileID: 2651215371325498554}
   _settingsController: {fileID: 1008349412570955996}
-  _lifeBarController: {fileID: 597448053}
+  _healthBarController: {fileID: 597448053}
 --- !u!114 &2045040340173046922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3478,7 +3484,7 @@ GameObject:
   - component: {fileID: 9058288484749374912}
   - component: {fileID: 1008349412570955996}
   m_Layer: 0
-  m_Name: UI_SettingsController
+  m_Name: UI_SpeedViewerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,7 +6,7 @@ namespace InventorySystem.ScriptableObjects.Commands
 {
 
     [CreateAssetMenu(fileName = "CB_MakeInvisible", menuName = "Scriptable Objects/CB_MakeInvisible")]
-    public class CB_MakeInvisible : CommandBehaviour
+    public class CB_MakeInvisible : CommandBehaviour, ITimedCommand
     {
 
         [SerializeField]
@@ -17,14 +17,19 @@ namespace InventorySystem.ScriptableObjects.Commands
         [SerializeField]
         [Range(1.0f, 1000.0f)]
         [Tooltip("Time during which the target will remain invisible")]
-        private float duration = 1.0f;
-
+        private float _duration = 1.0f;
+        public float Duration
+        { 
+            get => _duration;
+            set => _duration = value;
+        }
 
         public override void DoCommand(GameObject self = null)
         {
 
             MonoBehaviour monoBehaviour = self.GetComponent<MonoBehaviour>();
-            monoBehaviour.StartCoroutine(SetInvisibility(self, alphaValue, duration));
+            OnStartCommand?.Invoke();
+            monoBehaviour.StartCoroutine(SetInvisibility(self, alphaValue, _duration));
 
         }
 
@@ -33,14 +38,13 @@ namespace InventorySystem.ScriptableObjects.Commands
         private IEnumerator SetInvisibility(GameObject target, float alphaValue, float duration)
         {
 
-            bool commandState = true;
-            IsCurrentlyCast = commandState;
+            bool collisionsState = false;
             SetAlphaChannels(target, alphaValue);
-            SetCollisions(target, !commandState);
+            SetCollisions(target, collisionsState);
             yield return new WaitForSeconds(duration);
             SetAlphaChannels(target, 1);
-            SetCollisions(target, commandState);
-            IsCurrentlyCast = !commandState;
+            SetCollisions(target, !collisionsState);
+            OnEndCommand?.Invoke();
 
         }
 

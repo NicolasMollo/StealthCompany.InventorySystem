@@ -1,6 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 using NewLab.Unity.SDK.Core.Modules;
+using System;
 
 
 namespace InventorySystem.Systems.Controllers.Player
@@ -26,13 +27,19 @@ namespace InventorySystem.Systems.Controllers.Player
         public float MovementSpeed
         {
             get => _movementSpeed;
-            set => _movementSpeed = value > 1000.0f ? 1000.0f : value < 1.0f ? 1.0f : value;
+            set
+            {
+                _movementSpeed = value > 1000.0f ? 1000.0f : value < 1.0f ? 1.0f : value;
+                OnChangeMovementSpeed?.Invoke(_movementSpeed);
+            }
         }
+        public Action<float> OnChangeMovementSpeed = null;
 
         [SerializeField]
         [Tooltip("Rotation speed multiplier")]
         [Range(1.0f, 25.0f)]
         private float rotationSpeedMultiplier = 10.0f;
+
 
 
         public void Movement(Transform targetCamera)

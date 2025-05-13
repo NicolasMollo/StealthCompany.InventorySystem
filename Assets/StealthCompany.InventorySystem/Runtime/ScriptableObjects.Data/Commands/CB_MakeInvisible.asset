@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CB_MakeInvisible
   m_EditorClassIdentifier: 
   alphaValue: 0.2
-  duration: 5
+  _duration: 5

@@ -8,6 +8,7 @@ using NewLab.Unity.SDK.Core.Modules;
 using NewLab.Unity.SDK.Core.Systems;
 using NewLab.Unity.SDK.Core.Systems.Controllers;
 using UnityEngine;
+using InventorySystem.Systems.UI.EffectViewers;
 
 namespace InventorySystem.Systems.UI
 {
@@ -29,10 +30,10 @@ namespace InventorySystem.Systems.UI
         }
 
         [SerializeField]
-        private UI_SettingsController _settingsController = null;
-        public UI_SettingsController SettingsController
+        private UI_EffectsViewersController _effectsViewersController = null;
+        public UI_EffectsViewersController EffectsViewersController
         {
-            get => _settingsController;
+            get => _effectsViewersController;
         }
 
         [SerializeField]
@@ -50,6 +51,8 @@ namespace InventorySystem.Systems.UI
         public void RegisteringEventOnMainSceneRootController(BaseSceneRootController sceneRootController)
         {
 
+            _inventoryController.OnCreateInventoryItem += OnCreateInventoryItem;
+
             // Inventory management
             InventorySystem_CollectibleItemsController collectibleItemsController =
                 sceneRootController.GetController<InventorySystem_CollectibleItemsController>();
@@ -66,11 +69,19 @@ namespace InventorySystem.Systems.UI
             _healthBarController.UpdateHealthBar(playerController.HealthModule);
             playerController.HealthModule.OnTakeHealth += OnPlayerTakeHealth;
             playerController.HealthModule.OnTakeDamage += OnPlayerTakeDamage;
+            // Effects viewer management
+            _effectsViewersController.SetUp();
+            _effectsViewersController.SetPlayerSpeedText(playerController.MovementModule.MovementSpeed);
+            playerController.MovementModule.OnChangeMovementSpeed += OnChangePlayerMovementSpeed;
+
+
 
         }
 
         public void UnregisteringEventOnMainSceneRootController(BaseSceneRootController sceneRootController)
         {
+
+            _inventoryController.OnCreateInventoryItem -= OnCreateInventoryItem;
 
             // Inventory management
             InventorySystem_CollectibleItemsController collectibleItemsController =
@@ -86,10 +97,33 @@ namespace InventorySystem.Systems.UI
                sceneRootController.GetController<InventorySystem_PlayerController>();
             playerController.HealthModule.OnTakeHealth -= OnPlayerTakeHealth;
             playerController.HealthModule.OnTakeDamage -= OnPlayerTakeDamage;
+            // Effects viewer management
+            playerController.MovementModule.OnChangeMovementSpeed -= OnChangePlayerMovementSpeed;
+
 
         }
 
         #endregion
+
+        private void OnCreateInventoryItem(UI_InventoryItem inventoryItem)
+        {
+
+            inventoryItem.OnClickButton += OnClickInventoryItem;
+        }
+
+        private void OnClickInventoryItem(UI_InventoryItem inventoryItem)
+        {
+
+            _effectsViewersController.SetEffectTimeViewImage(inventoryItem.Configuration);
+
+        }
+
+        private void OnChangePlayerMovementSpeed(float movementSpeed)
+        {
+
+            _effectsViewersController.SetPlayerSpeedText(movementSpeed);
+
+        }
 
         private void OnPlayerTakeHealth(Std_HealthModule healthModule)
         {

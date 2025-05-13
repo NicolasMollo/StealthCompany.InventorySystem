@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using System;
 using InventorySystem.Systems.Controllers.Items.Collectibles;
 using TMPro;
+using UnityEditor;
 
 
 namespace InventorySystem.Systems.UI.Inventory
@@ -60,7 +61,7 @@ namespace InventorySystem.Systems.UI.Inventory
         public Action OnItemDrag = null;
         public Action OnItemEndDrag = null;
 
-        public Action<CollectibleItemConfiguration> OnClickButton = null;
+        public Action<UI_InventoryItem> OnClickButton = null;
         public Action<UI_InventoryItem> OnDestroyMe = null;
 
 
@@ -72,6 +73,15 @@ namespace InventorySystem.Systems.UI.Inventory
             _configuration = itemConfiguration;
             image.material = _configuration.ItemUIImageMaterial;
             image.sprite = _configuration.ItemUIImage;
+            AddListeners();
+
+        }
+
+        private void AddListeners()
+        {
+
+            _configuration.CollectibleItemBehaviour.OnStartCommand += OnStartCommand;
+            _configuration.CollectibleItemBehaviour.OnEndCommand += OnEndCommand;
             _button.onClick.AddListener(OnButtonClick);
 
         }
@@ -79,21 +89,56 @@ namespace InventorySystem.Systems.UI.Inventory
         private void OnDestroy()
         {
 
-            _button.onClick.RemoveListener(OnButtonClick);
+            RemoveListeners();
             OnDestroyMe?.Invoke(this);
 
         }
 
+        private void RemoveListeners()
+        {
+
+            _button.onClick.RemoveListener(OnButtonClick);
+            _configuration.CollectibleItemBehaviour.OnStartCommand -= OnStartCommand;
+            _configuration.CollectibleItemBehaviour.OnEndCommand -= OnEndCommand;
+
+        }
+
+        private void OnStartCommand()
+        {
+
+            DisableButton();
+
+        }
+
+        private void OnEndCommand()
+        {
+
+            EnableButton();
+
+        }
 
         private void OnButtonClick()
         {
 
-            if (_configuration.CollectibleItemBehaviour.IsCurrentlyCast) 
-                return;
-            OnClickButton?.Invoke(_configuration);
+            OnClickButton?.Invoke(this);
             DecreaseUnitsOfItemCount();
 
         }
+
+        public void EnableButton()
+        {
+
+            _button.interactable = true;
+
+        }
+
+        public void DisableButton()
+        {
+
+            _button.interactable = false;
+
+        }
+
 
         private void DecreaseUnitsOfItemCount()
         {

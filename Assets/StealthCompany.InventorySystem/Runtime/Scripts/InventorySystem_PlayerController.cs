@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using NewLab.Unity.SDK.Core.Systems.Controllers.Player;
 using NewLab.Unity.SDK.Core.Systems.Controllers;
 using NewLab.Unity.SDK.Core.Modules;
@@ -36,7 +37,6 @@ namespace InventorySystem.Systems.Controllers.Player
         #endregion
 
         private CommandBehaviour playerBehaviour = null;
-
         private Transform cameraTransform = null;
 
 
@@ -90,9 +90,6 @@ namespace InventorySystem.Systems.Controllers.Player
 
             #endregion
 
-            if (playerBehaviour != null)
-                playerBehaviour.CleanUp();
-
         }
 
 
@@ -105,26 +102,13 @@ namespace InventorySystem.Systems.Controllers.Player
 
         }
 
-        private void OnClickInventoryItemButton(CollectibleItemConfiguration collectibleItemConfiguration)
+        private void OnClickInventoryItemButton(UI_InventoryItem inventoryItem)
         {
 
-            // collectibleItemConfiguration.CollectibleItemBehaviour.DoCommand(this.gameObject);
-            playerBehaviour = collectibleItemConfiguration.CollectibleItemBehaviour;
-            if (playerBehaviour.IsCurrentlyCast)
-                return;
+            playerBehaviour = inventoryItem.Configuration.CollectibleItemBehaviour;
             playerBehaviour.DoCommand(this.gameObject);
 
         }
-
-
-        //private void PrintCollectibleItemInfo(CollectibleItemConfiguration collectibleItemConfiguration)
-        //{
-
-        //    Debug.Log($"== {this.name} == {collectibleItemConfiguration.name}" +
-        //        $"\n{collectibleItemConfiguration.CollectibleType.ToString()}" +
-        //        $"\n{collectibleItemConfiguration.CollectibleItemID.ToString()}");
-
-        //}
 
         #endregion
 

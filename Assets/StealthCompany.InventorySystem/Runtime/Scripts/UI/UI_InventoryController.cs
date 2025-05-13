@@ -19,6 +19,13 @@ namespace InventorySystem.Systems.UI.Inventory
         [TitleGroup("SLOTS", null, TitleAlignments.Left)]
 
         [SerializeField]
+        [Tooltip("Inventory slot prefab")]
+        private GameObject prefabInventorySlot = null;
+
+        [SerializeField]
+        private Transform slotsParent = null;
+
+        [SerializeField]
         [Tooltip("List of inventory slots")]
         private List<UI_InventorySlot> slots = null;
 
@@ -37,6 +44,7 @@ namespace InventorySystem.Systems.UI.Inventory
                 }
                 return inventorySlot;
             }
+            set => FreeSlot = value;
         }
 
         #endregion
@@ -86,9 +94,10 @@ namespace InventorySystem.Systems.UI.Inventory
         private UI_InventoryItem CreateInventoryItem(CollectibleItemConfiguration collectibleItemConfiguration)
         {
 
-            GameObject inventoryItemObject = Instantiate(prefabInventoryItem, FreeSlot.transform);
+            UI_InventorySlot slot = FreeSlot == null ? CreateInventorySlot() : FreeSlot;
+            GameObject inventoryItemObject = Instantiate(prefabInventoryItem, slot.transform);
             UI_InventoryItem inventoryItem = inventoryItemObject.GetComponent<UI_InventoryItem>();
-            inventoryItem.SetUp(FreeSlot.transform, itemsParentOnDrag, collectibleItemConfiguration);
+            inventoryItem.SetUp(slot.transform, itemsParentOnDrag, collectibleItemConfiguration);
             inventoryItem.OnDestroyMe += OnDestroyInventoryItem;
             items.Add(inventoryItem);
             OnCreateInventoryItem?.Invoke(inventoryItem);
@@ -96,12 +105,16 @@ namespace InventorySystem.Systems.UI.Inventory
 
         }
 
-        private void OnDestroyInventoryItem(UI_InventoryItem inventoryItem)
+        private UI_InventorySlot CreateInventorySlot()
         {
 
-            items.Remove(inventoryItem);
+            GameObject inventorySlotObject = Instantiate(prefabInventorySlot, slotsParent);
+            UI_InventorySlot inventorySlot = inventorySlotObject.GetComponent<UI_InventorySlot>();
+            slots.Add(inventorySlot);
+            return inventorySlot;
 
         }
+
 
         private void OnDestroy()
         {
@@ -110,6 +123,12 @@ namespace InventorySystem.Systems.UI.Inventory
             {
                 inventoryItem.OnDestroyMe -= OnDestroyInventoryItem;
             }
+
+        }
+        private void OnDestroyInventoryItem(UI_InventoryItem inventoryItem)
+        {
+
+            items.Remove(inventoryItem);
 
         }
 

@@ -1,10 +1,8 @@
 using UnityEngine;
-using System;
 using NewLab.Unity.SDK.Core.Systems.Controllers.Player;
 using NewLab.Unity.SDK.Core.Systems.Controllers;
 using NewLab.Unity.SDK.Core.Modules;
 using InventorySystem.Systems.Controllers.CameraManagement;
-using InventorySystem.Systems.Controllers.Items.Collectibles;
 using InventorySystem.Systems.UI;
 using InventorySystem.Systems.UI.Inventory;
 using InventorySystem.ScriptableObjects.Commands;

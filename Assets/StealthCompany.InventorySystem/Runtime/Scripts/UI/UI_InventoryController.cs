@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using NewLab.Unity.SDK.Core.Systems.Controllers;
 using InventorySystem.Systems.Controllers.Items.Collectibles;
-using System.Linq;
-using System;
 
 
 namespace InventorySystem.Systems.UI.Inventory
@@ -23,6 +23,7 @@ namespace InventorySystem.Systems.UI.Inventory
         private GameObject prefabInventorySlot = null;
 
         [SerializeField]
+        [Tooltip("Inventory slots parent")]
         private Transform slotsParent = null;
 
         [SerializeField]
@@ -36,7 +37,7 @@ namespace InventorySystem.Systems.UI.Inventory
                 UI_InventorySlot inventorySlot = null;
                 foreach (UI_InventorySlot slot in slots)
                 {
-                    if (slot.transform.childCount == 0)
+                    if (slot.IsFree)
                     {
                         inventorySlot = slot;
                         break;
@@ -44,7 +45,6 @@ namespace InventorySystem.Systems.UI.Inventory
                 }
                 return inventorySlot;
             }
-            set => FreeSlot = value;
         }
 
         #endregion
@@ -62,10 +62,6 @@ namespace InventorySystem.Systems.UI.Inventory
 
         [Tooltip("List of inventory items")]
         private List<UI_InventoryItem> items = new List<UI_InventoryItem>();
-        public List<UI_InventoryItem> Items
-        {
-            get => items;
-        }
 
         #endregion
 
@@ -73,6 +69,12 @@ namespace InventorySystem.Systems.UI.Inventory
 
         #region API
 
+        /// <summary>
+        /// Method that deals with the Set Up of an inventory item.
+        /// If the inventory Item exists and has not reached the maximum quantity of units then it 
+        /// adds a unit to the item, otherwise it creates and returns a new one
+        /// </summary>
+        /// <param name="collectibleItemConfiguration"></param>
         public void SetUpInventoryItem(CollectibleItemConfiguration collectibleItemConfiguration)
         {
 
@@ -90,31 +92,7 @@ namespace InventorySystem.Systems.UI.Inventory
 
         #endregion
 
-
-        private UI_InventoryItem CreateInventoryItem(CollectibleItemConfiguration collectibleItemConfiguration)
-        {
-
-            UI_InventorySlot slot = FreeSlot == null ? CreateInventorySlot() : FreeSlot;
-            GameObject inventoryItemObject = Instantiate(prefabInventoryItem, slot.transform);
-            UI_InventoryItem inventoryItem = inventoryItemObject.GetComponent<UI_InventoryItem>();
-            inventoryItem.SetUp(slot.transform, itemsParentOnDrag, collectibleItemConfiguration);
-            inventoryItem.OnDestroyMe += OnDestroyInventoryItem;
-            items.Add(inventoryItem);
-            OnCreateInventoryItem?.Invoke(inventoryItem);
-            return inventoryItem;
-
-        }
-
-        private UI_InventorySlot CreateInventorySlot()
-        {
-
-            GameObject inventorySlotObject = Instantiate(prefabInventorySlot, slotsParent);
-            UI_InventorySlot inventorySlot = inventorySlotObject.GetComponent<UI_InventorySlot>();
-            slots.Add(inventorySlot);
-            return inventorySlot;
-
-        }
-
+        #region Life cycle
 
         private void OnDestroy()
         {
@@ -125,12 +103,57 @@ namespace InventorySystem.Systems.UI.Inventory
             }
 
         }
+
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        /// Method that creates and return an inventory item.
+        /// If a free slot(parent of the item) is not found, one is created and the item is then added to it.
+        /// </summary>
+        /// <param name="collectibleItemConfiguration"></param>
+        /// <returns></returns>
+        private UI_InventoryItem CreateInventoryItem(CollectibleItemConfiguration collectibleItemConfiguration)
+        {
+
+            UI_InventorySlot inventorySlot = FreeSlot == null ? CreateInventorySlot() : FreeSlot;
+            GameObject inventoryItemObject = Instantiate(prefabInventoryItem, inventorySlot.transform);
+            UI_InventoryItem inventoryItem = inventoryItemObject.GetComponent<UI_InventoryItem>();
+            inventoryItem.SetUp(inventorySlot.transform, itemsParentOnDrag, collectibleItemConfiguration);
+            inventoryItem.OnDestroyMe += OnDestroyInventoryItem;
+            items.Add(inventoryItem);
+            OnCreateInventoryItem?.Invoke(inventoryItem);
+            return inventoryItem;
+
+        }
+
+        /// <summary>
+        /// Method that creates and returns an inventory slot.
+        /// </summary>
+        /// <returns></returns>
+        private UI_InventorySlot CreateInventorySlot()
+        {
+
+            GameObject inventorySlotObject = Instantiate(prefabInventorySlot, slotsParent);
+            UI_InventorySlot inventorySlot = inventorySlotObject.GetComponent<UI_InventorySlot>();
+            slots.Add(inventorySlot);
+            return inventorySlot;
+
+        }
+
+        /// <summary>
+        /// Method that removes the inventory item passed as parameter from the "items" list once it is destroyed.
+        /// </summary>
+        /// <param name="inventoryItem"></param>
         private void OnDestroyInventoryItem(UI_InventoryItem inventoryItem)
         {
 
             items.Remove(inventoryItem);
 
         }
+
+        #endregion
 
     }
 

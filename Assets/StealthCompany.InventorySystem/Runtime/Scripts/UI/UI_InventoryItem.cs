@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 using System;
 using InventorySystem.Systems.Controllers.Items.Collectibles;
 using TMPro;
-using UnityEditor;
 
 
 namespace InventorySystem.Systems.UI.Inventory
@@ -14,6 +13,8 @@ namespace InventorySystem.Systems.UI.Inventory
     public class UI_InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
 
+        #region UI components references
+
         [SerializeField]
         [Tooltip("Graphic of UI inventory item")]
         private Image image = null;
@@ -21,55 +22,61 @@ namespace InventorySystem.Systems.UI.Inventory
         [SerializeField]
         [Tooltip("Button component")]
         private Button _button = null;
-        public Button Button
-        {
-            get => _button;
-        }
 
         [SerializeField]
         [Tooltip("Item units text")]
         private TextMeshProUGUI itemUnitsText = null;
 
-        [Tooltip("Data that define a tyoe of invenotry item")]
+        #endregion
+        #region Item units
+
+        [SerializeField]
+        [Tooltip("Max number of inventory item's units")]
+        private int maxUnitsCount = 10;
+
+        private int unitsOfItemCount = 0;
+
+        public bool ReachedMaxNumberOfUnits
+        {
+            get => unitsOfItemCount == maxUnitsCount;
+        }
+
+        #endregion
+        #region Parents
+
+        [Tooltip("Inventory item parent on drag")]
+        private Transform dragParent = null;
+
+        [HideInInspector]
+        [Tooltip("Inventory item parent")]
+        public Transform parent = null;
+
+        #endregion
+
+        [Tooltip("Data that define a type of inventory item")]
         private CollectibleItemConfiguration _configuration = null;
         public CollectibleItemConfiguration Configuration
         {
             get => _configuration;
         }
 
-        [Tooltip("Inventory item parent on drag")]
-        private Transform dragParent = null;
-
-        [Tooltip("Inventory item parent")]
-        private Transform _parent = null;
-        public Transform Parent
-        {
-            get => _parent;
-            set => _parent = value;
-        }
-
-        [SerializeField]
-        private int maxUnitsCount = 10;
-
-        private int unitsOfItemCount = 0;
-        public bool ReachedMaxNumberOfUnits
-        {
-            get => unitsOfItemCount == maxUnitsCount;
-        }
-
-        public Action OnItemBeginDrag = null;
-        public Action OnItemDrag = null;
-        public Action OnItemEndDrag = null;
-
         public Action<UI_InventoryItem> OnClickButton = null;
         public Action<UI_InventoryItem> OnDestroyMe = null;
 
 
-        public void SetUp(Transform inventoryItemParent, Transform inventoryItemParentOnDrag, CollectibleItemConfiguration itemConfiguration)
+        #region API
+
+        /// <summary>
+        /// Method that deals with setting the inventory item.
+        /// </summary>
+        /// <param name="itemParent"></param>
+        /// <param name="itemParentOnDrag"></param>
+        /// <param name="itemConfiguration"></param>
+        public void SetUp(Transform itemParent, Transform itemParentOnDrag, CollectibleItemConfiguration itemConfiguration)
         {
 
-            _parent = inventoryItemParent;
-            dragParent = inventoryItemParentOnDrag;
+            parent = itemParent;
+            dragParent = itemParentOnDrag;
             _configuration = itemConfiguration;
             image.material = _configuration.ItemUIImageMaterial;
             image.sprite = _configuration.ItemUIImage;
@@ -77,14 +84,42 @@ namespace InventorySystem.Systems.UI.Inventory
 
         }
 
-        private void AddListeners()
+        /// <summary>
+        /// Method that enables the button's interaction
+        /// </summary>
+        public void EnableButton()
         {
 
-            _configuration.CollectibleItemBehaviour.OnStartCommand += OnStartCommand;
-            _configuration.CollectibleItemBehaviour.OnEndCommand += OnEndCommand;
-            _button.onClick.AddListener(OnButtonClick);
+            _button.interactable = true;
 
         }
+
+        /// <summary>
+        /// Method that disables the button's interaction
+        /// </summary>
+        public void DisableButton()
+        {
+
+            _button.interactable = false;
+
+        }
+
+        /// <summary>
+        /// Method that deals with increasing the number of units of the item.
+        /// </summary>
+        /// <returns></returns>
+        public int IncreaseUnitsOfItemCount()
+        {
+
+            unitsOfItemCount++;
+            SetItemUnitsText();
+            return unitsOfItemCount;
+
+        }
+
+        #endregion
+
+        #region Life cycle
 
         private void OnDestroy()
         {
@@ -94,26 +129,24 @@ namespace InventorySystem.Systems.UI.Inventory
 
         }
 
+        #endregion
+
+        #region Event methods
+
+        private void AddListeners()
+        {
+
+            _configuration.CollectibleItemBehaviour.OnStartCommand += OnStartCommand;
+            _configuration.CollectibleItemBehaviour.OnEndCommand += OnEndCommand;
+            _button.onClick.AddListener(OnButtonClick);
+
+        }
         private void RemoveListeners()
         {
 
             _button.onClick.RemoveListener(OnButtonClick);
             _configuration.CollectibleItemBehaviour.OnStartCommand -= OnStartCommand;
             _configuration.CollectibleItemBehaviour.OnEndCommand -= OnEndCommand;
-
-        }
-
-        private void OnStartCommand()
-        {
-
-            DisableButton();
-
-        }
-
-        private void OnEndCommand()
-        {
-
-            EnableButton();
 
         }
 
@@ -124,50 +157,54 @@ namespace InventorySystem.Systems.UI.Inventory
             DecreaseUnitsOfItemCount();
 
         }
-
-        public void EnableButton()
+        private void OnStartCommand()
         {
 
-            _button.interactable = true;
+            DisableButton();
+
+        }
+        private void OnEndCommand()
+        {
+
+            EnableButton();
 
         }
 
-        public void DisableButton()
-        {
+        #endregion
 
-            _button.interactable = false;
+        #region Private methods
 
-        }
-
-
+        /// <summary>
+        /// Method that decreases the units of the item.
+        /// If the number of units is equal to zero the item is deleted.
+        /// </summary>
         private void DecreaseUnitsOfItemCount()
         {
 
             unitsOfItemCount--;
-            itemUnitsText.text = unitsOfItemCount < 2 ? string.Empty : unitsOfItemCount.ToString();
+            SetItemUnitsText();
             if (unitsOfItemCount == 0)
                 Destroy(this.gameObject);
 
         }
 
-        public int IncreaseUnitsOfItemCount()
+        private void SetItemUnitsText()
         {
 
-            if (unitsOfItemCount == maxUnitsCount)
-                unitsOfItemCount = 0;
-            unitsOfItemCount++;
             itemUnitsText.text = unitsOfItemCount < 2 ? string.Empty : unitsOfItemCount.ToString();
-            return unitsOfItemCount;
 
         }
+
+        #endregion
+
+        #region DragHandler events
 
         public void OnBeginDrag(PointerEventData eventData)
         {
 
             image.raycastTarget = false;
-            _parent = transform.parent;
+            parent = transform.parent;
             transform.SetParent(dragParent);
-            OnItemBeginDrag?.Invoke();
 
         }
 
@@ -175,7 +212,6 @@ namespace InventorySystem.Systems.UI.Inventory
         {
 
             transform.position = Input.mousePosition;
-            OnItemDrag?.Invoke();
 
         }
 
@@ -183,10 +219,11 @@ namespace InventorySystem.Systems.UI.Inventory
         {
 
             image.raycastTarget = true;
-            transform.SetParent(_parent);
-            OnItemEndDrag?.Invoke();
+            transform.SetParent(parent);
 
         }
+
+        #endregion
 
     }
 

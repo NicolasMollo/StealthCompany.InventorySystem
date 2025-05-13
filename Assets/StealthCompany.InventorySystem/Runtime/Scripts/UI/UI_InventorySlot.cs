@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
 namespace InventorySystem.Systems.UI.Inventory
 {
 
@@ -8,24 +9,21 @@ namespace InventorySystem.Systems.UI.Inventory
     public class UI_InventorySlot : MonoBehaviour, IDropHandler
     {
 
-        private bool _isSlotFree = true;
-        public bool IsSlotFree
+        public bool IsFree
         {
-            get => _isSlotFree;
+            get => transform.childCount == 0;
         }
 
         public void OnDrop(PointerEventData eventData)
         {
 
-            if (this.transform.childCount == 0)
+            if (IsFree)
             {
                 UI_InventoryItem inventoryItem = eventData.pointerDrag.GetComponent<UI_InventoryItem>();
-                inventoryItem.Parent = this.transform;
-                _isSlotFree = false;
+                inventoryItem.parent = transform;
             }
 
         }
-
 
     }
 

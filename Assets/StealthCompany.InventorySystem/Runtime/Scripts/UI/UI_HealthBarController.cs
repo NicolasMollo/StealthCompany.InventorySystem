@@ -1,10 +1,9 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 using NewLab.Unity.SDK.Core.Modules;
 using NewLab.Unity.SDK.Core.Systems.Controllers;
-using Sirenix.OdinInspector;
-using UnityEngine.UI;
-using System;
 
 
 namespace InventorySystem.Systems.UI.HealthBar
@@ -48,19 +47,26 @@ namespace InventorySystem.Systems.UI.HealthBar
         [Tooltip("Object that will be updated on the X-axis")]
         private RectTransform healthBarTransform = null;
 
-        [Range(0.0f, 1.0f)]
-        public float smoothTime = 0.2f;
+        [SerializeField]
+        [Tooltip("Image component of healt bar object")]
+        private Image healthBarImage = null;
 
         [SerializeField]
-        private Image image = null;
+        [Tooltip("Healrh bar colors")]
+        private HealthBarColors healthBarColors = default;
+
+        [SerializeField]
+        [Range(0.0f, 1.0f)]
+        private float smoothTime = 0.2f;
 
         private Vector3 startScale = Vector3.zero;
 
-        [SerializeField]
-        private HealthBarColors healthBarColors = default;
 
+        #region API
 
-
+        /// <summary>
+        /// Method that sets the health bar controller.
+        /// </summary>
         public override void SetUp()
         {
 
@@ -68,6 +74,10 @@ namespace InventorySystem.Systems.UI.HealthBar
 
         }
 
+        /// <summary>
+        /// Method that updates the health bar.
+        /// </summary>
+        /// <param name="healthModule"></param>
         public void UpdateHealthBar(Std_HealthModule healthModule)
         {
 
@@ -76,6 +86,15 @@ namespace InventorySystem.Systems.UI.HealthBar
 
         }
 
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        /// Method that sets the health bar X scale smoothly.
+        /// </summary>
+        /// <param name="targetScaleX"></param>
+        /// <returns></returns>
         private IEnumerator SetHealthBarScaleX(float targetScaleX)
         {
 
@@ -96,6 +115,11 @@ namespace InventorySystem.Systems.UI.HealthBar
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentScaleX"></param>
+        /// <param name="healthBarColors"></param>
         private void SetHealthBarColor(float currentScaleX, HealthBarColors healthBarColors)
         {
 
@@ -103,13 +127,15 @@ namespace InventorySystem.Systems.UI.HealthBar
             float quarterLifeOffset = startScale.x * 0.25f;
 
             if (currentScaleX > averageHealthOffset)
-                image.color = healthBarColors.FullHpColor;
+                healthBarImage.color = healthBarColors.FullHpColor;
             else if (currentScaleX <= averageHealthOffset && currentScaleX >= quarterLifeOffset)
-                image.color = healthBarColors.AverageHpColor;
+                healthBarImage.color = healthBarColors.AverageHpColor;
             else
-                image.color = healthBarColors.QuarterHpColor;
+                healthBarImage.color = healthBarColors.QuarterHpColor;
 
         }
+
+        #endregion
 
     }
 

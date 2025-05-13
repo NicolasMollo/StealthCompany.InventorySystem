@@ -39,7 +39,7 @@ namespace InventorySystem.Systems.Controllers
             playerController = GetController<InventorySystem_PlayerController>();
             // Get systems reference
             systemUI = SystemsManager.GetSystem<InventorySystem_SystemUI>();
-            systemUI.RegisteringEventOnMainSceneRootController(this);
+            systemUI.RegisterSceneEvents(this);
 
         }
 
@@ -65,7 +65,7 @@ namespace InventorySystem.Systems.Controllers
                 controller.CleanUp(this);
             }
 
-            systemUI.UnregisteringEventOnMainSceneRootController(this);
+            systemUI.UnregisterSceneEvents(this);
 
         }
 

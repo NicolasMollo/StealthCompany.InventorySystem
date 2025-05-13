@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513610c3b3fdced44947584198ca99b3, type: 3}
   m_Name: Potion
   m_EditorClassIdentifier: 
-  _collectibleItemName: Potion
-  _collectibleItemID: 1
+  _itemName: Potion
+  _itemID: 0
   _itemUIImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   _itemUIImageMaterial: {fileID: 2100000, guid: 47d3521eae18de348a37cbeb041cf99b, type: 2}
-  _collectibleItemBehaviour: {fileID: 11400000, guid: e4830c42c0759ef4da163c6941da5a9d, type: 2}
+  _itemCommandBehaviour: {fileID: 11400000, guid: e4830c42c0759ef4da163c6941da5a9d, type: 2}

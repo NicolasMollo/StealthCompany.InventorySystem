@@ -6,7 +6,7 @@ using InventorySystem.Systems.Controllers.Player;
 namespace InventorySystem.ScriptableObjects.Commands
 {
 
-    [CreateAssetMenu(fileName = "CB_ModifySpeed", menuName = "Scriptable Objects/CB_ModifySpeed")]
+    [CreateAssetMenu(fileName = "CB_ModifySpeed", menuName = "ScriptableObjects/CB_ModifySpeed")]
     public class CB_IncreaseSpeed : CommandBehaviour, ITimedCommand
     {
 
@@ -33,12 +33,13 @@ namespace InventorySystem.ScriptableObjects.Commands
                 Debug.LogError($"== CB_IncreaseSpeed.{this.name} == Your target object doesn't have a \"InventorySystem_MovementModule\" component attached");
                 return;
             }
-            OnStartCommand?.Invoke();
 
-            //startSpeed = movementModule.MovementSpeed;
+            OnStartCommand?.Invoke();
             movementModule.StartCoroutine(SetSpeed(movementModule, additionalSpeed, _duration));
 
         }
+
+        #region Private methods
 
         private IEnumerator SetSpeed(InventorySystem_MovementModule movementModule, float speed, float duration)
         {
@@ -63,6 +64,8 @@ namespace InventorySystem.ScriptableObjects.Commands
             movementModule.MovementSpeed -= speed;
 
         }
+
+        #endregion
 
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace InventorySystem.ScriptableObjects.Commands
 {
 
-    [CreateAssetMenu(fileName = "CB_MakeInvisible", menuName = "Scriptable Objects/CB_MakeInvisible")]
+    [CreateAssetMenu(fileName = "CB_MakeInvisible", menuName = "ScriptableObjects/CB_MakeInvisible")]
     public class CB_MakeInvisible : CommandBehaviour, ITimedCommand
     {
 

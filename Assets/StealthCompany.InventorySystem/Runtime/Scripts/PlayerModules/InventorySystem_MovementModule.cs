@@ -1,7 +1,7 @@
+using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using NewLab.Unity.SDK.Core.Modules;
-using System;
 
 
 namespace InventorySystem.Systems.Controllers.Player
@@ -19,6 +19,8 @@ namespace InventorySystem.Systems.Controllers.Player
         {
             get => _targetCharacterController;
         }
+
+        #region Speeds
 
         [SerializeField]
         [Range(1.0f, 1000.0f)]
@@ -40,8 +42,12 @@ namespace InventorySystem.Systems.Controllers.Player
         [Range(1.0f, 25.0f)]
         private float rotationSpeedMultiplier = 10.0f;
 
+        #endregion
 
-
+        /// <summary>
+        /// Method that deals with moving the target.
+        /// </summary>
+        /// <param name="targetCamera"></param>
         public void Movement(Transform targetCamera)
         {
 
@@ -66,6 +72,10 @@ namespace InventorySystem.Systems.Controllers.Player
 
         }
 
+        /// <summary>
+        /// Method that get mouse input axes.
+        /// </summary>
+        /// <returns></returns>
         private Vector3 GetAxes()
         {
 

@@ -37,7 +37,7 @@ namespace InventorySystem.Systems.UI.EffectViewers
 
             effectTimeViewImage.fillAmount = IMAGE_SHOW_VALUE;
             effectTimeViewImage.material = collectibleItemConfiguration.ItemUIImageMaterial;
-            if (collectibleItemConfiguration.CollectibleItemBehaviour is ITimedCommand timedCommand)
+            if (collectibleItemConfiguration.ItemCommandBehaviour is ITimedCommand timedCommand)
                 StartCoroutine(DrainEffectTimeViewImage(timedCommand.Duration));
 
         }

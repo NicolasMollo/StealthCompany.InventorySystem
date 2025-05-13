@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarTransform: {fileID: 1860931685}
-  healthBarImage: {fileID: 0}
+  healthBarImage: {fileID: 1860931686}
   healthBarColors:
     _fullHpColor: {r: 0.26850104, g: 1, b: 0, a: 1}
     _averageHpColor: {r: 1, g: 0.9512944, b: 0, a: 1}
@@ -752,13 +752,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1688544717}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1815458624}
-  m_Father: {fileID: 3698609394846074834}
+  m_Father: {fileID: 3187989285985536542}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1688544719
 MonoBehaviour:
@@ -794,7 +794,7 @@ GameObject:
   - component: {fileID: 1814669300}
   - component: {fileID: 1814669299}
   m_Layer: 0
-  m_Name: Background
+  m_Name: HealthBar_Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -976,7 +976,7 @@ GameObject:
   - component: {fileID: 1909872209}
   - component: {fileID: 1909872208}
   m_Layer: 0
-  m_Name: Image
+  m_Name: HealthBar_PlayerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1839,13 +1839,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4518604896762667137}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.5}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.602}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4062623814560903766}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &2501456255599092292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2130,6 +2130,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3698609394846074834}
+  - {fileID: 1688544718}
   - {fileID: 4719495055701705327}
   - {fileID: 5800652152281705090}
   - {fileID: 1505977500}
@@ -2241,7 +2242,6 @@ Transform:
   m_Children:
   - {fileID: 5406098541768900589}
   - {fileID: 7432116559401369224}
-  - {fileID: 1688544718}
   m_Father: {fileID: 3187989285985536542}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3698609394846074835

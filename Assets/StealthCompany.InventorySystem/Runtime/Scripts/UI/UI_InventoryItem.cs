@@ -136,8 +136,8 @@ namespace InventorySystem.Systems.UI.Inventory
         private void AddListeners()
         {
 
-            _configuration.CollectibleItemBehaviour.OnStartCommand += OnStartCommand;
-            _configuration.CollectibleItemBehaviour.OnEndCommand += OnEndCommand;
+            _configuration.ItemCommandBehaviour.OnStartCommand += OnStartCommand;
+            _configuration.ItemCommandBehaviour.OnEndCommand += OnEndCommand;
             _button.onClick.AddListener(OnButtonClick);
 
         }
@@ -145,8 +145,8 @@ namespace InventorySystem.Systems.UI.Inventory
         {
 
             _button.onClick.RemoveListener(OnButtonClick);
-            _configuration.CollectibleItemBehaviour.OnStartCommand -= OnStartCommand;
-            _configuration.CollectibleItemBehaviour.OnEndCommand -= OnEndCommand;
+            _configuration.ItemCommandBehaviour.OnStartCommand -= OnStartCommand;
+            _configuration.ItemCommandBehaviour.OnEndCommand -= OnEndCommand;
 
         }
 

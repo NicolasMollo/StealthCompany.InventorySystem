@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 513610c3b3fdced44947584198ca99b3, type: 3}
-  m_Name: IncreaseSpeed
+  m_Name: DecreaseSpeed
   m_EditorClassIdentifier: 
-  _itemName: IncreaseSpeed
-  _itemID: 4
+  _itemName: DecreaseSpeed
+  _itemID: 3
   _itemUIImage: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  _itemUIImageMaterial: {fileID: 2100000, guid: 59718ab005fd7494a97b5f0d65ef949a, type: 2}
-  _itemCommandBehaviour: {fileID: 11400000, guid: 469d311d7714de84093c3f3fe9967f18, type: 2}
+  _itemUIImageMaterial: {fileID: 2100000, guid: 1a1b8d6564a8acb4aa270297b865e6b8, type: 2}
+  _itemCommandBehaviour: {fileID: 11400000, guid: 654a11016c74083479ed0ca71a833883, type: 2}

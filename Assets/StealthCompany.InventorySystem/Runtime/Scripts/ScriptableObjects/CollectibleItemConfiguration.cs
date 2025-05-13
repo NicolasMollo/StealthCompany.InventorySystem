@@ -1,8 +1,5 @@
-using InventorySystem.ScriptableObjects.Commands;
-using Sirenix.OdinInspector.Editor.Validation;
-using System.Data;
 using UnityEngine;
-using UnityEngine.UI;
+using InventorySystem.ScriptableObjects.Commands;
 
 
 namespace InventorySystem.Systems.Controllers.Items.Collectibles
@@ -13,17 +10,17 @@ namespace InventorySystem.Systems.Controllers.Items.Collectibles
     {
 
         [SerializeField]
-        private string _collectibleItemName = string.Empty;
-        public string CollectibleItemName
+        private string _itemName = string.Empty;
+        public string ItemName
         {
-            get => _collectibleItemName;
+            get => _itemName;
         }
 
         [SerializeField]
-        private int _collectibleItemID = -1;
-        public int CollectibleItemID
+        private int _itemID = -1;
+        public int ItemID
         {
-            get => _collectibleItemID;
+            get => _itemID;
         }
 
         [SerializeField]
@@ -41,10 +38,10 @@ namespace InventorySystem.Systems.Controllers.Items.Collectibles
         }
 
         [SerializeField]
-        private CommandBehaviour _collectibleItemBehaviour = null;
-        public CommandBehaviour CollectibleItemBehaviour
+        private CommandBehaviour _itemCommandBehaviour = null;
+        public CommandBehaviour ItemCommandBehaviour
         {
-            get => _collectibleItemBehaviour;
+            get => _itemCommandBehaviour;
         }
 
     }

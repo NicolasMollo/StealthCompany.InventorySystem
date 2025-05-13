@@ -79,7 +79,7 @@ namespace InventorySystem.Systems.UI.Inventory
         {
 
             UI_InventoryItem inventoryItem = items.FirstOrDefault(item => 
-                item.Configuration.CollectibleItemID == collectibleItemConfiguration.CollectibleItemID
+                item.Configuration.ItemID == collectibleItemConfiguration.ItemID
                     && !item.ReachedMaxNumberOfUnits
                         );
 

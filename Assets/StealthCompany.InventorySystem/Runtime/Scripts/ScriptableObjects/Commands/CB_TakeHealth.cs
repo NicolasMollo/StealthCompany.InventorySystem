@@ -5,7 +5,7 @@ using UnityEngine;
 namespace InventorySystem.ScriptableObjects.Commands
 {
 
-    [CreateAssetMenu(fileName = "CB_TakeHealth", menuName = "Scriptable Objects/CB_TakeHealth")]
+    [CreateAssetMenu(fileName = "CB_TakeHealth", menuName = "ScriptableObjects/CB_TakeHealth")]
     public class CB_TakeHealth : CommandBehaviour
     {
 
@@ -17,6 +17,10 @@ namespace InventorySystem.ScriptableObjects.Commands
         {
 
             BaseHealthModule healthModule = self.GetComponentInChildren<BaseHealthModule>();
+            if (healthModule == null)
+            {
+                Debug.LogError($"== CB_TakeHealth.{this.name} == Your object doesn't have a healtModule attached!");
+            }
             healthModule.TakeHealth(hp);
 
         }

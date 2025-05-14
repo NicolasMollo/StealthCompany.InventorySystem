@@ -35,10 +35,10 @@ namespace InventorySystem.Systems.UI.EffectViewers
         public void SetEffectTimeViewImage(CollectibleItemConfiguration collectibleItemConfiguration)
         {
 
-            effectTimeViewImage.fillAmount = IMAGE_SHOW_VALUE;
-            effectTimeViewImage.material = collectibleItemConfiguration.ItemUIImageMaterial;
             if (collectibleItemConfiguration.ItemCommandBehaviour is ITimedCommand timedCommand)
-                StartCoroutine(DrainEffectTimeViewImage(timedCommand.Duration));
+                StartCoroutine(DrainEffectTimeViewImage(timedCommand.Duration, collectibleItemConfiguration.ItemUIImageMaterial));
+            else
+                StartCoroutine(ShowEffectTimeViewImage(IMAGE_SHOW_VALUE, collectibleItemConfiguration.ItemUIImageMaterial));
 
         }
 
@@ -62,9 +62,10 @@ namespace InventorySystem.Systems.UI.EffectViewers
         /// </summary>
         /// <param name="drainDuration"></param>
         /// <returns></returns>
-        private IEnumerator DrainEffectTimeViewImage(float drainDuration)
+        private IEnumerator DrainEffectTimeViewImage(float drainDuration, Material material)
         {
 
+            effectTimeViewImage.material = material;
             effectTimeViewImage.fillAmount = IMAGE_SHOW_VALUE;
             float initialFillAmount = effectTimeViewImage.fillAmount;
             float elapsedTime = 0f;
@@ -78,6 +79,23 @@ namespace InventorySystem.Systems.UI.EffectViewers
             }
 
             effectTimeViewImage.fillAmount = IMAGE_HIDE_VALUE;
+
+        }
+
+        /// <summary>
+        /// Method that temporarily displays the image.
+        /// </summary>
+        /// <param name="duration"></param>
+        /// <returns></returns>
+        private IEnumerator ShowEffectTimeViewImage(float duration, Material material)
+        {
+
+            Material previousMaterial = effectTimeViewImage.material;
+            effectTimeViewImage.material = material;
+            effectTimeViewImage.fillAmount = IMAGE_SHOW_VALUE;
+            yield return new WaitForSeconds(duration);
+            effectTimeViewImage.fillAmount = IMAGE_HIDE_VALUE;
+            effectTimeViewImage.material = previousMaterial;
 
         }
 
